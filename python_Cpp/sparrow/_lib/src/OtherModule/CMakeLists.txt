@@ -1,0 +1,7 @@
+include_directories(/home/bright/Vscode_Project/Python_project/python_Cpp/pybind11/include)
+include_directories(/usr/include/python3.6)
+link_directories(/usr/lib/python3.6)
+aux_source_directory(. DIR_SRCS)
+add_library(OtherModule SHARED ${DIR_SRCS})
+#set_target_properties(OtherModule PROPERTIES SUFFIX ".pyd")
+target_link_libraries(OtherModule)
