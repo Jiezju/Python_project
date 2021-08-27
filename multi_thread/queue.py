@@ -1,10 +1,7 @@
 import time
 import threading
 
-class ThreadSafeQueueExceotion(Exception):
-    pass
-
-class ThreadSafeQueue(object):
+class ThreadSafeQueue:
     def __init__(self, max_size=0):
         self.queue = []
         self.max_size = max_size
@@ -19,7 +16,7 @@ class ThreadSafeQueue(object):
 
     def put(self, item):
         if self.max_size != 0 and self.size() > self.max_size:
-            return ThreadSafeQueue()
+            return ThreadSafeQueueExceotion()
 
         self.lock.acquire()
         self.queue.append(item)
@@ -51,6 +48,16 @@ class ThreadSafeQueue(object):
             item = self.queue.pop()
         self.lock.release()
         return item
+
+    def get(self, index):
+        self.lock.acquire()
+        item = self.queue[index]
+        self.lock.release()
+        return item
+
+class ThreadSafeQueueExceotion(Exception):
+    pass
+
 
 
 def producer(string):

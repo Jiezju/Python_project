@@ -2,7 +2,7 @@ import psutil
 import threading
 
 from queue import ThreadSafeQueue
-from task import Task
+from task import Task, AsyncTask
 
 # 单个线程的封装
 class ProcessThread(threading.Thread):
@@ -28,6 +28,9 @@ class ProcessThread(threading.Thread):
                 continue
 
             result = task.callable(*task.args, **task.kwargs)
+
+            if isinstance(task, AsyncTask):
+                task.set_result(result)
 
     def dismiss(self):
         self.dismiss_flag.set()
